@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROTex | Market Intelligence</title>
+
+    <link rel="icon" type="image/png" href="https://www.google.com/s2/favicons?domain=streamlit.io&sz=64">
+
+    <meta property="og:title" content="ROTex Dashboard">
+    <meta property="og:description" content="Elite Market Intelligence and Chaos Theory Simulator.">
+    <meta property="og:image" content="https://roman.bro.bd/rotex-preview.png"> 
+    <meta property="og:url" content="https://roman.bro.bd"> 
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <style>
+        /* Reset & full‑screen layout */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #0e1117; /* fallback while iframe loads */
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* Loading indicator that disappears once iframe loads (optional, with JS) */
+        .loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ccc;
+            font-size: 1.2rem;
+            z-index: 10;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            /* Ensure iframe appears above loading message */
+            z-index: 20;
+        }
+
+        /* Simple error fallback (if iframe fails to load) – hidden by default */
+        .error-fallback {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #f88;
+            background: #1e1e2e;
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+            z-index: 30;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+        }
+
+        .error-fallback a {
+            color: #6ab0f3;
+            text-decoration: none;
+        }
+
+        .error-fallback a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="loading" id="loading">Loading ROTex Dashboard...</div>
+
+    <div class="error-fallback" id="errorFallback">
+        <p>⚠️ Failed to load the dashboard.</p>
+        <p>Try <a href="https://rotex-predator.streamlit.app/?embed=true" target="_blank">opening it directly</a>.</p>
+    </div>
+
+    <iframe 
+        src="https://rotex-predator.streamlit.app/?embed=true"
+        title="ROTex Market Intelligence Dashboard"
+        allow="accelerometer; camera; encrypted-media; geolocation; gyroscope; microphone; midi; payment; usb; xr-spatial-tracking" 
+        referrerpolicy="strict-origin-when-cross-origin"
+        sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals allow-downloads"
+        loading="lazy"
+        onload="document.getElementById('loading').style.opacity='0'; setTimeout(() => document.getElementById('loading').style.display='none', 300);"
+        onerror="document.getElementById('loading').style.display='none'; document.getElementById('errorFallback').style.display='block';"
+    ></iframe>
+
+    <script>
+        // Hide loading if iframe loads successfully (already in onload attribute)
+        // But also handle cases where iframe loads very fast: ensure loading fades out
+        window.addEventListener('DOMContentLoaded', function() {
+            const iframe = document.querySelector('iframe');
+            const loadingEl = document.getElementById('loading');
+
+            // If iframe already completed (cached), hide loading immediately
+            if (iframe && iframe.complete) {
+                loadingEl.style.opacity = '0';
+                setTimeout(() => loadingEl.style.display = 'none', 300);
+            }
+
+            // Set a timeout to hide loading anyway after 5 seconds (safety)
+            setTimeout(() => {
+                if (loadingEl.style.display !== 'none') {
+                    loadingEl.style.opacity = '0';
+                    setTimeout(() => loadingEl.style.display = 'none', 300);
+                }
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
